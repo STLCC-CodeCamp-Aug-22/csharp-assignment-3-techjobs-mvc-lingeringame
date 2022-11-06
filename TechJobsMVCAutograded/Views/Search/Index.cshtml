@@ -1,4 +1,5 @@
-﻿<div class="container body-content">
+﻿
+<div class="container body-content">
 
     <h1>@ViewBag.title</h1>
 
@@ -9,7 +10,7 @@
             @foreach (var column in ViewBag.columns)
             {
                 <span>
-                    <input type="radio" name="searchType" id="@column.Key" value="@column.Key" checked="@column.Key == 'all'" />
+                    <input type="radio" name="searchType" id="@column.Key" value="@column.Key" @(@column.Key == "all" || column.Key == ViewBag.searchType ? "checked" : null)/> <!--checked == all : will check 'All' by default-->
                     <label for="@column.Key">@column.Value</label>
                 </span>
             }
@@ -18,7 +19,7 @@
 
         <p>
             <label for="searchTerm">Keyword:</label>
-            <input type="text" name="searchTerm" id="searchTerm" />
+            <input type="text" name="searchTerm" id="searchTerm" value="@ViewBag.searchTerm" />
         </p>
 
         <input type="submit" value="Search" />
@@ -27,7 +28,28 @@
     <hr />
 
     @* TODO #4 - Loop over the search results to display all job fields. *@
+    @if(ViewBag.jobs.Count == 0) {
+    } else {
+        <span>@ViewBag.jobs.Count results found.</span>
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Employer</th>
+                <th>Location</th>
+                <th>Position Type</th>
+                <th>Skill(s)</th>
+            </tr>
+            @foreach (var jobs in ViewBag.jobs)
+            {
+                <tr>
+                    <td>@jobs.Name</td>
+                    <td><a asp-area="" asp-controller="List" asp-action="Jobs" asp-route-column="employer" asp-route-value="@jobs.Employer">@jobs.Employer</a></td>
+                    <td><a asp-area="" asp-controller="List" asp-action="Jobs" asp-route-column="location" asp-route-value="@jobs.Location">@jobs.Location</a></td>
+                    <td><a asp-area="" asp-controller="List" asp-action="Jobs" asp-route-column="positionType" asp-route-value="@jobs.PositionType">@jobs.PositionType</a></td>
+                    <td><a asp-area="" asp-controller="List" asp-action="Jobs" asp-route-column="coreCompetency" asp-route-value="@jobs.CoreCompetency">@jobs.CoreCompetency</a></td>
+                </tr>
+            }
+        </table>
+    }
     
-
-
 </div>
