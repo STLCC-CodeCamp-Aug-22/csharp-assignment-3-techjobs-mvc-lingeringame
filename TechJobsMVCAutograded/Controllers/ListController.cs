@@ -53,7 +53,6 @@ namespace TechJobsMVCAutograded.Controllers
                 ViewBag.jobs = new List<Job>(JobData.FindByColumnAndValue(column, value));
                 ViewBag.title = $"Results for jobs with {ColumnChoices[column]}, '{value}'";
             }
-            //left off on 3) 11/5/2022
             return View();
         }
     }
